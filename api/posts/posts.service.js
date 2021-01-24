@@ -12,41 +12,41 @@ async function query(filterBy = {}) {
      
         return posts
     } catch (err) {
-        logger.error('cannot find reviews', err)
+        logger.error('cannot find posts', err)
         throw err
     }
 }
 
-async function remove(reviewId) {
+async function remove(postwId) {
     try {
         const store = asyncLocalStorage.getStore()
         const { userId, isAdmin } = store
-        const collection = await dbService.getCollection('review')
+        const collection = await dbService.getCollection('posts')
         // remove only if user is owner/admin
-        const query = { _id: ObjectId(reviewId) }
+        const query = { _id: ObjectId(postwId) }
         if (!isAdmin) query.byUserId = ObjectId(userId)
         await collection.deleteOne(query)
         // return await collection.deleteOne({ _id: ObjectId(reviewId), byUserId: ObjectId(userId) })
     } catch (err) {
-        logger.error(`cannot remove review ${reviewId}`, err)
+        logger.error(`cannot remove post ${postwId}`, err)
         throw err
     }
 }
 
 
-async function add(review) {
+async function add(post) {
     try {
         // peek only updatable fields!
-        const reviewToAdd = {
-            byUserId: ObjectId(review.byUserId),
-            aboutUserId: ObjectId(review.aboutUserId),
-            txt: review.txt
+        const postToAdd = {
+            byUserId: ObjectId(post.byUserId),
+            aboutUserId: ObjectId(post.aboutUserId),
+            txt: post.txt
         }
-        const collection = await dbService.getCollection('review')
-        const res = await collection.insertOne(reviewToAdd)
+        const collection = await dbService.getCollection('posts')
+        const res = await collection.insertOne(postToAdd)
         return res.ops[0];
     } catch (err) {
-        logger.error('cannot insert review', err)
+        logger.error('cannot insert post', err)
         throw err
     }
 }
