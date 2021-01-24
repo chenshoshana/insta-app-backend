@@ -26,10 +26,10 @@ async function deletePost(req, res) {
 async function addPost(req, res) {
     try {
         var post = req.body
-        post.byUserId = req.session.user._id
+        // post.byUserId = req.session.user._id
         post = await postService.add(post)
-        post.byUser = req.session.user
-        post.aboutUser = await userService.getById(post.aboutUserId)
+        // post.byUser = req.session.user
+        // post.aboutUser = await userService.getById(post.aboutUserId)
         res.send(post)
 
     } catch (err) {
