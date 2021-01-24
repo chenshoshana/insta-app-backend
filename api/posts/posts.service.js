@@ -38,9 +38,9 @@ async function add(post) {
     try {
         // peek only updatable fields!
         const postToAdd = {
-            byUserId: ObjectId(post.byUserId),
-            aboutUserId: ObjectId(post.aboutUserId),
-            txt: post.txt
+            // byUserId: ObjectId(post.byUserId),
+            // aboutUserId: ObjectId(post.aboutUserId),
+            title: post.title
         }
         const collection = await dbService.getCollection('posts')
         const res = await collection.insertOne(postToAdd)
