@@ -17,6 +17,7 @@ async function deletePost(req, res) {
         await postService.remove(req.params.id)
         res.send({ msg: 'Deleted successfully' })
     } catch (err) {
+        console.log('err', err)
         logger.error('Failed to delete post', err)
         res.status(500).send({ err: 'Failed to delete post' })
     }

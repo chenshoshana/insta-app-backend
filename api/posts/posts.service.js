@@ -12,23 +12,24 @@ async function query(filterBy = {}) {
      
         return posts
     } catch (err) {
-        logger.error('cannot find posts', err)
+        // logger.error('cannot find posts', err)
         throw err
     }
 }
 
-async function remove(postwId) {
+async function remove(postId) {
     try {
         const store = asyncLocalStorage.getStore()
-        const { userId, isAdmin } = store
+        // const { userId } = store
         const collection = await dbService.getCollection('posts')
         // remove only if user is owner/admin
-        const query = { _id: ObjectId(postwId) }
-        if (!isAdmin) query.byUserId = ObjectId(userId)
+        console.log('postId', postId)
+        const query = { _id: ObjectId(postId) }
+        // if (!isAdmin) query.byUserId = ObjectId(userId)
         await collection.deleteOne(query)
         // return await collection.deleteOne({ _id: ObjectId(reviewId), byUserId: ObjectId(userId) })
     } catch (err) {
-        logger.error(`cannot remove post ${postwId}`, err)
+        // logger.error(`cannot remove post ${postId}`, err)
         throw err
     }
 }
@@ -40,7 +41,7 @@ async function add(post) {
         const res = await collection.insertOne(post)
         return res.ops[0];
     } catch (err) {
-        logger.error('cannot insert post', err)
+        // logger.error('cannot insert post', err)
         throw err
     }
 }
