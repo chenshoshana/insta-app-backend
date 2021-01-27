@@ -36,6 +36,7 @@ async function remove(postId) {
 
 
 async function add(post) {
+    console.log('enter posts.service backend');
     try {
         const collection = await dbService.getCollection('posts')
         const res = await collection.insertOne(post)
