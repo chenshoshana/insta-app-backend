@@ -6,10 +6,10 @@ async function query(filterBy = {}) {
     try {
         // const criteria = _buildCriteria(filterBy)
         const collection = await dbService.getCollection('posts')
-       
+
         // const reviews = await collection.find(criteria).toArray()
         var posts = await collection.find({}).toArray()
-     
+
         return posts
     } catch (err) {
         // logger.error('cannot find posts', err)
@@ -46,10 +46,42 @@ function _buildCriteria(filterBy) {
     return criteria
 }
 
+async function edit(post) {
+    try {
+        const postToUpdate = { ...post, _id: ObjectId(post._id) }
+        const collection = await dbService.getCollection('posts')
+        // console.log(ObjectId(post._id))
+        await collection.updateOne({ '_id': postToUpdate._id }, { $set: postToUpdate })
+        return postToUpdate
+    } catch (err) {
+        throw err
+    }
+
+    // try {
+    //     // peek only updatable fields!
+    //     const postToSave = {
+    //         _id: ObjectId(post._id),
+    //         username: post.username,
+    //         fullname: post.fullname,
+
+    //     }
+    //     const collection = await dbService.getCollection('user')
+    //     await collection.updateOne({ '_id': postToSave._id }, { $set: postToSave })
+    //     return postToSave;
+    // } catch (err) {
+    //     logger.error(`cannot update user ${user._id}`, err)
+    //     throw err
+    // }
+
+
+
+}
+
 module.exports = {
     query,
     remove,
-    add
+    add,
+    edit
 }
 
 

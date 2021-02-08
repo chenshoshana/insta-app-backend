@@ -36,8 +36,22 @@ async function addPost(req, res) {
     }
 }
 
+async function editPost(req, res) {
+    try {
+        var post = req.body.post
+        const newPost = await postService.edit(post)
+        console.log('new post back',newPost)
+        res.send(newPost)
+
+    } catch (err) {
+        logger.error('Failed to edit post', err)
+        res.status(500).send({ err: 'Failed to edit post' })
+    }
+}
+
 module.exports = {
     getPosts: getPosts,
     deletePost,
-    addPost: addPost
+    addPost: addPost,
+    editPost
 }
